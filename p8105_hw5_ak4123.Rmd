@@ -83,29 +83,45 @@ homicides %>%
 ```
 ADD DESCRIPTION IN LINE
 
-```{rest of question 2}
-homicides = 
-  homicides %>% 
+```{r}
+homicides = homicides %>% 
   mutate(city_state = paste(city, state, sep = ", "))
 
-total_homicides = 
-  homicides %>% 
+total_homicides = homicides %>% 
   group_by(city_state) %>% 
-  summarize(n()) %>% 
-  summarize(unsolved_homicides = sum(disposition == "Closed without arrest" | disposition == "Open/No arrest"))
+  summarize(tot_homicides = n(),
+            unsolved_homicides = sum(disposition == "Closed without arrest" | 
+                                    disposition == "Open/No arrest"))
 
-baltimore_homicides =
-  total_homicides %>% 
+baltimore_homicides = total_homicides %>% 
   filter(city_state == "Baltimore, MD")
   
 baltimore_prop = 
   prop.test(x = baltimore_homicides$unsolved_homicides,
-            n = baltimore_homicides$total_homicides) %>% 
+            n = baltimore_homicides$tot_homicides) %>% 
   broom::tidy() %>% 
   select(estimate, conf.low, conf.high)
 
+#test inline
 baltimore_prop$estimate
 baltimore_prop$conf.low
 baltimore_prop$conf.high
 ```
-For the city of Baltimore, MD the estimate the proportion of homicides that are unsolved is . 
+For Baltimore, MD, the estimated proportion of unsolved homicide cases is `r baltimore_prop$estimate` and the 95% confidence interval for the estimate is (`r baltimore_prop$conf.low`, `r baltimore_prop$conf.high`).
+
+```{r}
+prop_unsolved_homicides = function(x, y) {
+   est_prop = 
+     prop.test(x = x, n = y) %>% 
+     broom::tidy() %>% 
+     select(estimate, conf.low, conf.high)}
+
+final_homicides =
+  map2(.x = total_homicides$unsolved_homicides, .y = total_homicides$tot_homicides, 
+      ~prop_unsolved_homicides(.x, .y)) %>% 
+  bind_rows() %>% 
+  bind_cols(total_homicides) %>% 
+  mutate(confidence_limit_low = conf.low, confidence_limit_high = conf.high) %>% 
+  select(city_state, tot_homicides, unsolved_homicides, estimate, confidence_limit_low, 
+        confidence_limit_high) 
+```
