@@ -22,8 +22,19 @@ Create a tidy dataframe containing data from all participants, including the sub
 files = list.files("./data", full.names = TRUE)
 data_files = 
   tibble(
-  arm =  str_detect(files, "con"),
-  participant = str_extract(files, "\\d+(?=.csv)"),
+  treatment =  str_detect(files, "con"),
+  participant_id = str_extract(files, "\\d+(?=.csv)"),
   data = map(.x = files, ~read.csv(.x))
   )
+data_files =
+  data_files %>% 
+  unnest %>% 
+  mutate(treatment = case_when(treatment == TRUE ~ "Control",
+                         treatment == FALSE ~ "Experimental")
+  ) %>% 
+  gather(key = "week", week_1:week_8, value = "value") %>% 
+  mutate(week = as.numeric(str_extract(week, "\\d"))) %>% 
+  arrange(treatment, participant_id)
+data_files
+
 ```
