@@ -19,8 +19,11 @@ This zip file contains data from a longitudinal study that included a control ar
 Create a tidy dataframe containing data from all participants, including the subject ID, arm, and observations over time:
 ```{r question 1}
 
-# list all files
-files <- list.files(path = "./data")
- 
-data <- map_df(paste("./data", files, sep = "/"),
-                     read_csv)
+files = list.files("./data", full.names = TRUE)
+data_files = 
+  tibble(
+  arm =  str_detect(files, "con"),
+  participant = str_extract(files, "\\d+(?=.csv)"),
+  data = map(.x = files, ~read.csv(.x))
+  )
+```
