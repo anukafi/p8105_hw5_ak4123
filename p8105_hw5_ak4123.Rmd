@@ -15,8 +15,6 @@ set.seed(1)
 ```
 
 #Question 1
-This zip file contains data from a longitudinal study that included a control arm and an experimental arm. Data for each participant is included in a separate file, and file names include the subject ID and arm.
-Create a tidy dataframe containing data from all participants, including the subject ID, arm, and observations over time:
 ```{r question 1}
 
 files = list.files("./data", full.names = TRUE)
@@ -53,3 +51,35 @@ ggplot(data_files, aes(x = week, y = value, color = participant_id)) +
 
 ```
 The major difference between the control and experimental groups is that the observed values of the experimental group are significantly higher than in the control group. Also, there is more of an upward trend over time in the experimental group, whereas the controls tended to have an end value at week 8 around the same as the value measured in week 1. 
+#Question 2
+
+***DESCRIBE THE RAW DATA HERE:
+``` {r question 2}
+homicides = read_csv("./data-homicides/homicide-data.csv") %>% 
+  janitor::clean_names()
+
+homicides %>%
+  nrow()
+homicides %>% 
+  ncol()
+homicides %>% 
+  select(victim_first) %>% 
+  head(1)
+homicides %>% 
+  select(victim_last) %>% 
+  head(1)
+homicides %>% 
+  select(victim_age) %>% 
+  head(1)
+homicides %>% 
+  select(city) %>% 
+  head(1)
+homicides %>% 
+  select(state) %>% 
+  head(1)
+homicides %>% 
+  select(disposition) %>% 
+  head(1)
+```
+
+
