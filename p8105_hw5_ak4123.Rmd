@@ -104,4 +104,8 @@ baltimore_prop =
   broom::tidy() %>% 
   select(estimate, conf.low, conf.high)
 
+baltimore_prop$estimate
+baltimore_prop$conf.low
+baltimore_prop$conf.high
 ```
+For the city of Baltimore, MD the estimate the proportion of homicides that are unsolved is . 
