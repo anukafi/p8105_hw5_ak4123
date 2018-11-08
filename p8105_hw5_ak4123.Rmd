@@ -37,4 +37,18 @@ data_files =
   arrange(treatment, participant_id)
 data_files
 
+ggplot(data_files, aes(x = week, y = value, color = participant_id)) + 
+  facet_grid(.~treatment) + 
+  geom_line() + 
+ viridis::scale_color_viridis(
+      discrete = TRUE,
+      name = "participant id"
+    ) +
+    labs(
+      x = "week",
+      y = "value",
+      title = "Observed Values by Treatment Group over Time"
+    ) +
+    theme_bw()
+
 ```
