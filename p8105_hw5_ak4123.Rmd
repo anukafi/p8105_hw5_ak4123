@@ -81,5 +81,10 @@ homicides %>%
   select(disposition) %>% 
   head(1)
 ```
+ADD DESCRIPTION IN LINE
+
+```{rest of question 2}
 
 
+homicide = homicide %>% 
+  mutate(city_state = paste(city,",",state))
