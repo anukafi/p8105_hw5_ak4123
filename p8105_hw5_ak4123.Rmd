@@ -125,3 +125,16 @@ final_homicides =
   select(city_state, tot_homicides, unsolved_homicides, estimate, confidence_limit_low, 
         confidence_limit_high) 
 ```
+
+```{r plot}
+final_homicides %>% 
+  ggplot(aes(x = city_state, y = estimate)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = confidence_limit_low, ymax = confidence_limit_high)) +
+  labs(
+    x = "City",
+    y = "Unsolved Homicides - Estimated Proportion",
+    title = "Proportion of Unsolved Homicides in the US"
+  ) +
+  theme_bw()
+```
