@@ -52,3 +52,4 @@ ggplot(data_files, aes(x = week, y = value, color = participant_id)) +
     theme_bw()
 
 ```
+The major difference between the control and experimental groups is that the observed values of the experimental group are significantly higher than in the control group. Also, there is more of an upward trend over time in the experimental group, whereas the controls tended to have an end value at week 8 around the same as the value measured in week 1. 
